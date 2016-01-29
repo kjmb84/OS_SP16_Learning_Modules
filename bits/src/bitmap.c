@@ -4,17 +4,24 @@
 //      and used in the remaining bitmap functions. You will use data for any bit operations and bit logic
 // bit_count the number of requested bits, set in bitmap_create from n_bits
 // byte_count the total number of bytes the data contains, set in bitmap_create
-typedef struct bitmap {
+struct bitmap {
 	uint8_t *data;
 	size_t bit_count, byte_count;
 };
 
 bitmap_t *bitmap_create(size_t n_bits) {
-    if (n_bits == 0)
+    if (n_bits < 1 || n_bits > 65535)
         return NULL;
-    bitmap new_bitmap = new bitmap;
-    new_bitmap = malloc (sizeof(bitmap));
-    new_bitmap.bit_count = n_bits;
+    //struct bitmap *new_bitmap = (struct bitmap *) malloc(sizeof(struct bitmap));
+    //new_bitmap = malloc (sizeof(struct bitmap));
+    //new_bitmap->bit_count = n_bits;
+    bitmap_t *new_bitmap;
+    new_bitmap = (bitmap_t *) malloc(sizeof(bitmap_t));
+    new_bitmap->bit_count = n_bits;
+    new_bitmap->data = (uint8_t *) malloc(sizeof(uint8_t));
+    new_bitmap->byte_count = (n_bits/8);
+    return new_bitmap;
+
 }
 
 bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {

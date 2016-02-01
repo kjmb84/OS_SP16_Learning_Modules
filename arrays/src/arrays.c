@@ -37,11 +37,18 @@ ssize_t array_locate(const void *data, const void *target, const size_t elem_siz
     if (!data || !target || elem_count == 0 || elem_size == 0)
         return -1;
     else {
+        const char* d_ptr = (const char*) data;
+
+        for (size_t i = 0;i < elem_count; ++i, d_ptr += elem_size) {
+            if (memcmp(d_ptr, target, elem_size) == 0) {
+                return i;
+            }
+        }/*
         for (size_t i = 0;i < elem_count;i++) {
             //if (memcmp(data[elem_size*i], target, elem_size) == 0)
             if (memcmp(data, target, elem_size) == 0)
                 return elem_size*i;
-        }
+        }*/
 
         //ssize_t point = 0;
         /*for (int i = 0;i < elem_count;i++) {

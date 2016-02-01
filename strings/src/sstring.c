@@ -6,8 +6,13 @@
 #include "../include/sstring.h"
 
 bool string_valid(const char *str, const size_t length) {
-
-	return false;
+    if (!str)
+        return false;
+    for (size_t i = 0;i < length;i++) {
+        if (str[i] == '\0')
+            return true;
+    }
+    return false;
 }
 
 char *string_duplicate(const char *str, const size_t length) {
@@ -16,14 +21,14 @@ char *string_duplicate(const char *str, const size_t length) {
 
 }
 
-bool string_equal(const char *str_a, const char *str_b, const size_t length) {	
-	
+bool string_equal(const char *str_a, const char *str_b, const size_t length) {
+
 	return false;
 }
 
 int string_length(const char *str, const size_t length) {
 
-	return 0; 
+	return 0;
 }
 
 int string_tokenize(const char *str, const char *delims, const size_t str_length,char **tokens, const size_t max_token_length, const size_t requested_tokens) {

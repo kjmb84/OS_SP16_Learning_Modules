@@ -20,8 +20,8 @@ bitmap_t *bitmap_create(size_t n_bits) {
         new_bitmap->byte_count = (n_bits/8);
 
     new_bitmap->bit_count = n_bits;
-    new_bitmap->data = (uint8_t *) malloc(new_bitmap->byte_count); //set amount of memory given to data of bitmap
-
+    //new_bitmap->data = (uint8_t *) malloc(new_bitmap->byte_count); //set amount of memory given to data of bitmap
+    new_bitmap->data = (uint8_t *) calloc(new_bitmap->byte_count, sizeof(uint8_t));
     //new_bitmap->data = 0;
     //new_bitmap->data[new_bitmap->byte_count] = {0};
     return new_bitmap;
@@ -30,7 +30,7 @@ bitmap_t *bitmap_create(size_t n_bits) {
 bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {
     //if (!bitmap || (bit != 1 && bit != 0))
     if (bit == 0) {
-        bitmap->data[0] |= 1 << (bit%8);
+        bitmap->data[0] |= 1;
         return true;
     }
         /*
@@ -42,7 +42,7 @@ bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {
 
         return true;
     */
-    if (!bitmap || bit < 1 || (bit/8) > bitmap->byte_count)
+    if (!bitmap || bit < 1 || ceil(bit/8.0) > bitmap->byte_count)
         return false;
     else {
         bitmap->data[bit/8] |= 1 << (bit%8);
@@ -75,7 +75,7 @@ bool bitmap_reset(bitmap_t *const bitmap, const size_t bit) {
     if (!bitmap || bit > bitmap->bit_count)
         return false;
     else {
-        //bitmap->data[bit/8] &= ~(1 << (bit%32));
+        bitmap->data[bit/8] &= ~(1 << (bit%8));
         return true;
     }
 }
@@ -83,23 +83,24 @@ bool bitmap_reset(bitmap_t *const bitmap, const size_t bit) {
 bool bitmap_test(const bitmap_t *const bitmap, const size_t bit) {
     if (!bitmap || bit > bitmap->bit_count)
         return false;
-    else {/*
+    else {
         uint8_t test = 1 << (bit%8);
-        test |= bitmap->data[bit/8];
-        if (test != 1)
-            return true;
-        else*/
-
+        uint8_t test_cmp = test;
+        test &= bitmap->data[bit/8];
+        if (test != test_cmp)
+            return false;
+        else
             return true;
     }
 }
 
 size_t bitmap_ffs(const bitmap_t *const bitmap) {
     if (!bitmap)
-        //return bitmap->bit_count;
-        return 0;
+        return SIZE_MAX;
     else
-        //return bitmap->bit_count;
+        for (size_t i = 0;i < bitmap->byte_count;i++) {
+
+        }
         return 0;
 }
 

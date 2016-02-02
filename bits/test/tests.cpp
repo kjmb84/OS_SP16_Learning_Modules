@@ -98,7 +98,11 @@ TEST(bitmap_set, GoodSetA) {
 	ASSERT_NE(bitmap_A,(bitmap_t*)NULL);
 	EXPECT_EQ(true, bitmap_set(bitmap_A, 0));
 	EXPECT_EQ(true, bitmap_set(bitmap_A, test_bit_count - 1));
+<<<<<<< HEAD
 	ASSERT_EQ(0x03, bitmap_A->data[test_byte_count - 1]);
+=======
+	ASSERT_EQ(0x03, bitmap_A->data[test_byte_count -1]);
+>>>>>>> 25f7433912a121f03679ca7485a30a8149f853c8
 	ASSERT_EQ(0x01, bitmap_A->data[0]);
 	if (bitmap_A)
           bitmap_destroy(bitmap_A);

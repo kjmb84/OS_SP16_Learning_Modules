@@ -99,14 +99,36 @@ size_t bitmap_ffs(const bitmap_t *const bitmap) {
         return SIZE_MAX;
     else
         for (size_t i = 0;i < bitmap->byte_count;i++) {
-
+            if (bitmap->data[i] != 0) {
+                for (size_t j = 0;j < 8;j++) {
+                    uint8_t test = 1 << (j%8);
+                    uint8_t test_cmp = test;
+                    test &= bitmap->data[i];
+                    if (test == test_cmp)
+                        return (i*8 + j);
+                }
+            }
         }
-        return 0;
+        return SIZE_MAX;
 }
 
 size_t bitmap_ffz(const bitmap_t *const bitmap) {
-
-	return 0;
+    if (!bitmap)
+        return SIZE_MAX;
+    else {
+        for (size_t i = 0;i < bitmap->byte_count;i++) {
+            if (bitmap->data[i] != 0) {
+                for (size_t j = 0;j < 8;j++) {
+                    uint8_t test = 0;
+                    uint8_t test_cmp = test;
+                    test |= bitmap->data[i];
+                    if (test != test_cmp)
+                        return (i*8 + j);
+                }
+            }
+        }
+    }
+	return SIZE_MAX;
 }
 
 bool bitmap_destroy(bitmap_t *bitmap) {

@@ -38,7 +38,7 @@
  	size_t test_bit_count = 371;
  	bitmap_A = bitmap_create(test_bit_count);
 	ASSERT_NE(bitmap_A,(bitmap_t*)NULL);
- 	ASSERT_EQ(ceil(test_bit_count/8), bitmap_A->byte_count);
+ 	ASSERT_EQ(ceil(test_bit_count/8.0), bitmap_A->byte_count);
  	if (bitmap_A) {
 	  bitmap_destroy(bitmap_A);
 	}
@@ -101,7 +101,7 @@ TEST(bitmap_set, GoodSetA) {
 	ASSERT_EQ(0x02, bitmap_A->data[test_byte_count -1]);
 	ASSERT_EQ(0x01, bitmap_A->data[0]);
 	if (bitmap_A)
-          bitmap_destroy(bitmap_A);	
+          bitmap_destroy(bitmap_A);
 }
 
 TEST(bitmap_set, GoodSetB) {
@@ -130,7 +130,7 @@ TEST(bitmap_set, GoodSetB) {
 }
 
 /*
- *	BITMAP RESET UNIT TEST CASES 
+ *	BITMAP RESET UNIT TEST CASES
  **/
 
  TEST(bitmap_reset, NegBitVal) {
@@ -186,7 +186,7 @@ TEST(bitmap_reset, GoodResetA) {
 	EXPECT_EQ(true, bitmap_reset(bitmap_A, 2));
 	EXPECT_EQ(true, bitmap_reset(bitmap_A, 9));
 	ASSERT_EQ(0x00, bitmap_A->data[0]);
-	ASSERT_EQ(0x00, bitmap_A->data[1]);	
+	ASSERT_EQ(0x00, bitmap_A->data[1]);
 	bitmap_destroy(bitmap_A);
 }
 
@@ -322,7 +322,7 @@ TEST(bitmap_ffs, GoodffsC) {
  TEST(bitmap_ffz, BadBitmapObj) {
  	EXPECT_EQ(SIZE_MAX, bitmap_ffz(NULL));
  }
- 
+
  TEST(bitmap_ffz, NoZeroBit) {
  	bitmap_t *bitmap_A;
 	size_t test_bit_count = 41;
@@ -352,7 +352,7 @@ TEST(bitmap_ffs, GoodffsC) {
 	ASSERT_NE(bitmap_A,(bitmap_t*)NULL);
 	EXPECT_EQ(0, bitmap_ffz(bitmap_A));
 	for(size_t i = 0; i < test_bit_count; ++i) {
-		if(i == 29){ 
+		if(i == 29){
 			continue;
 		}
 		else
@@ -368,7 +368,7 @@ TEST(bitmap_ffs, GoodffsC) {
 	bitmap_A = bitmap_create(test_bit_count);
 	ASSERT_NE(bitmap_A,(bitmap_t*)NULL);
 	for(size_t i = 0; i < test_bit_count; ++i) {
-		if(i == 199) 
+		if(i == 199)
 			continue;
 		else
 			EXPECT_EQ(true, bitmap_set(bitmap_A, i));

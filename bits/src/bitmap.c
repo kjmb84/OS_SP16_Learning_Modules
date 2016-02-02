@@ -14,14 +14,15 @@ bitmap_t *bitmap_create(size_t n_bits) {
         return NULL;
     bitmap_t *new_bitmap;
     new_bitmap = (bitmap_t *) malloc(sizeof(bitmap_t));
-    new_bitmap->bit_count = n_bits;
-    new_bitmap->data = {0};//(uint8_t *) malloc(n_bits/8); //set amount of memory given to data of bitmap
-
-    //new_bitmap->data = 0;
     if (n_bits%8 != 0)
-        new_bitmap->byte_count = (n_bits/8+1);//set amount of bytes
+        new_bitmap->byte_count = ((n_bits/8)+1);//set amount of bytes
     else
         new_bitmap->byte_count = (n_bits/8);
+
+    new_bitmap->bit_count = n_bits;
+    new_bitmap->data = (uint8_t *) malloc(new_bitmap->byte_count); //set amount of memory given to data of bitmap
+
+    //new_bitmap->data = 0;
     //new_bitmap->data[new_bitmap->byte_count] = {0};
     return new_bitmap;
 }

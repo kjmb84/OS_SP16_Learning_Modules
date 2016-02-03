@@ -20,20 +20,20 @@ char *string_duplicate(const char *str, const size_t length) {
     if (!str || length < 1)
         return NULL;
     //char *dst_str[length];
-    else
-        return NULL;
-        /*char dst_str[length];
+    else {
+        char *dst_str = (char *) malloc(length);
         strncpy(dst_str, str, length);
         dst_str[length+1] = '\0';
         return dst_str;
-
+/*
         memcpy(dst_str, str, sizeof(char) * length);
-        dst_str += '\0';*/
+        dst_str[length] = '\0';
+*/
         /*for (size_t i=0;i < length;i++) {
             //dst_str[i] = str[i];
 
         }*/
-
+    }
 
 	return NULL;
 
@@ -62,8 +62,12 @@ int string_length(const char *str, const size_t length) {
 }
 
 int string_tokenize(const char *str, const char *delims, const size_t str_length,char **tokens, const size_t max_token_length, const size_t requested_tokens) {
+    if (!str || !delims || str_length < 1 || !tokens || max_token_length < 1 || requested_tokens < 1)
+        return 0;
+    else
+        for (size_t i = 0;i < str_length;i++) {
 
-	return 0;
+        }
 }
 
 bool string_to_int(const char *str, int *converted_value) {

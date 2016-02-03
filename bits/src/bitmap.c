@@ -33,45 +33,20 @@ bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {
         bitmap->data[0] |= 1;
         return true;
     }
-        /*
-        int i = bit/8;
-        int pos = bit%8;
-        uint8_t flag = 1;
-        flag = flag << pos;
-        bitmap->data[i] = bitmap->data[i] | flag;
-
-        return true;
-    */
     if (!bitmap || bit < 1 || ceil(bit/8.0) > bitmap->byte_count)
         return false;
     else {
         bitmap->data[bit/8] |= 1 << (bit%8);
         return true;
     }
-
-    /*
-        //bitmap->data[bit/8] |= 1 << (bit%8);
-        uint8_t i = bit/8;
-        uint8_t pos = bit%8;
-        uint8_t flag = 1;
-        flag = flag << pos;
-        bitmap->data[i] = (bitmap->data[i] | flag);
-        return true;
-    }*/
     return false;
-
-    /*if (!bitmap || bitmap->bit_count < 1 || bitmap->byte_count < 1 || !bitmap->data || bit > 65535 || bit < 1)
-        return false;
-
-    if (!bitmap || bit > 65535)
-        return false;
-    else {
-        bitmap->data[bit/8] |= (1 << (bit%8));
-        return true;
-    }*/
 }
 
 bool bitmap_reset(bitmap_t *const bitmap, const size_t bit) {
+   if (bit == 0) {
+        bitmap->data[0] &= ~1;
+        return true;
+    }
     if (!bitmap || bit > bitmap->bit_count)
         return false;
     else {
@@ -97,35 +72,44 @@ bool bitmap_test(const bitmap_t *const bitmap, const size_t bit) {
 size_t bitmap_ffs(const bitmap_t *const bitmap) {
     if (!bitmap)
         return SIZE_MAX;
-    else
+    else {
+        uint8_t hanging_bits = bitmap->bit_count % 8;
+        uint8_t bit_limit = 8;
         for (size_t i = 0;i < bitmap->byte_count;i++) {
             if (bitmap->data[i] != 0) {
-                for (size_t j = 0;j < 8;j++) {
+                for (size_t j = 0;j < bit_limit;j++) {
                     uint8_t test = 1 << (j%8);
                     uint8_t test_cmp = test;
                     test &= bitmap->data[i];
                     if (test == test_cmp)
                         return (i*8 + j);
                 }
+            if (bitmap->byte_count == i)
+                bit_limit = hanging_bits;
             }
         }
-        return SIZE_MAX;
+    }
+    return SIZE_MAX;
 }
 
 size_t bitmap_ffz(const bitmap_t *const bitmap) {
     if (!bitmap)
         return SIZE_MAX;
     else {
+        uint8_t hanging_bits = bitmap->bit_count % 8;
+        uint8_t bit_limit = 8;
         for (size_t i = 0;i < bitmap->byte_count;i++) {
-            if (bitmap->data[i] != 0) {
-                for (size_t j = 0;j < 8;j++) {
-                    uint8_t test = 0;
+            if (bitmap->data[i] != 255) //if all bits are set then skip
+                for (size_t j = 0;j < bit_limit;j++) { //bit_limit changes if the bit only proceeds partly into the byte being read.
+                    uint8_t test = 1 << (j%8);
                     uint8_t test_cmp = test;
-                    test |= bitmap->data[i];
+                    test &= bitmap->data[i];
+
                     if (test != test_cmp)
                         return (i*8 + j);
                 }
-            }
+            if (bitmap->byte_count == i)
+                bit_limit = hanging_bits;
         }
     }
 	return SIZE_MAX;

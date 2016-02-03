@@ -91,6 +91,19 @@ int string_tokenize(const char *str, const char *delims, const size_t str_length
 }
 
 bool string_to_int(const char *str, int *converted_value) {
-
+    if (!str || !converted_value)
+        return false;
+    int len = strlen(str);
+    if (len > 10)
+        return false;
+    //converted_value += 1;
+    for (int i = 0;i < len;i++) {
+        if (str[i] != ' ') {
+            printf("\n%d\n", *converted_value/*(str[len-i-1] - '0')*/);
+            *converted_value = *converted_value * 10 + (str[i] - '0');
+        }
+        else
+            return true;
+    }
 	return true;
 }

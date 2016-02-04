@@ -3,7 +3,9 @@
 
 int compare_structs(sample_t* a, sample_t* b)
 {
-	return 0;
+    if (a->a == b->a && a->b == b->b && a->c == b->c)
+        return 1;
+    return 0;
 }
 
 void print_alignments()
@@ -24,16 +26,17 @@ int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size)
 
 int initialize_array(fruit_t* a, int apples, int oranges)
 {
+    a-> = (fruit_t *) malloc((apples + oranges)*sizeof(int));
 	return 0;
 }
 
 int initialize_orange(orange_t* a)
-{	
+{
 	return 0;
 
 }
 
 int initialize_apple(apple_t* a)
-{	
+{
 	return 0;
 }

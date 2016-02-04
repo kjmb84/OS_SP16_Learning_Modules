@@ -26,7 +26,7 @@
 // (Assuming typical data sizes)
 typedef struct bad
 {
-	char a;			// this variable is at offset 0 
+	char a;			// this variable is at offset 0
 	long long b;	// this variable is at offset 1, requires alignment 8, 7 bytes of padding added in order to comply
 	char c;			// this variable is at offset 16, requires no additional padding.
 	int d;			// this variable is at offset 17, requires alignment 4, 3 bytes of additional padding in order to comply
@@ -90,9 +90,9 @@ void print_alignments();
 int compare_structs(sample_t* a, sample_t* b);
 
 // Purpose: Categorizes fruits into apples and oranges
-// Receives:  fruit_t* a - pointer to an array of fruits, 
-//			  int* apples - pointer to apples pass-back address, 
-//			  int* oranges - pointer to oranges pass-back address, 
+// Receives:  fruit_t* a - pointer to an array of fruits,
+//			  int* apples - pointer to apples pass-back address,
+//			  int* oranges - pointer to oranges pass-back address,
 //			  const size_t size - size of array
 // Returns: The size of the array, -1 if there was an error.
 int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size);

@@ -76,7 +76,8 @@ int string_tokenize(const char *str, const char *delims, const size_t str_length
             tokens[i++] = strtok(NULL, delims);
         return i;
     */
-
+//need to add null terminator to end of strings in tokens
+//Also need to find a way to get the last token from the string
         size_t toks = 0;
         size_t since_tok = 0;
         for (size_t i = 0;i < str_length;i++, ++since_tok) {
@@ -96,10 +97,9 @@ bool string_to_int(const char *str, int *converted_value) {
     int len = strlen(str);
     if (len > 10)
         return false;
-    //converted_value += 1;
     for (int i = 0;i < len;i++) {
         if (str[i] != ' ') {
-            printf("\n%d\n", *converted_value/*(str[len-i-1] - '0')*/);
+            printf("\n%d\n", *converted_value);
             *converted_value = *converted_value * 10 + (str[i] - '0');
         }
         else

@@ -94,7 +94,7 @@ int string_tokenize(const char *str, const char *delims, const size_t str_length
 */
 
         for (size_t i = 0;i < str_length;i++, ++since_tok) {
-            if (str[i] == *delims) {
+            if (str[i] == *delims || str[i] == '\0') {
                 strncpy(nullingString,&str[i-since_tok],since_tok);
                 nullingString[since_tok] = '\0';
                 printf("\n%s\n",nullingString);

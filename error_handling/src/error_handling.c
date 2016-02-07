@@ -10,18 +10,18 @@
 #include "../include/error_handling.h"
 
 int create_blank_records(Record_t **records, const size_t num_records) {
-    if (num_records < 1) {
+    if (num_records < 1 || !*records || records) {
         return -1;
     }
-    printf("\n%d\n", num_records);
-    Record_t *record2 = new Record_t;
+    //printf("\n%d\n", num_records);
+    /*Record_t *record2 = new Record_t;
     if (*records != record2)
-        return -2;
+        return -2;*/
     else {
         *records = (Record_t*) malloc(sizeof(Record_t) * num_records);
         memset(*records,0,sizeof(Record_t) * num_records);
         if (!*records)
-            return -3;
+            return -2;
         return 0;
     }
 

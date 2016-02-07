@@ -105,7 +105,7 @@ size_t bitmap_ffz(const bitmap_t *const bitmap) {
                     uint8_t test_cmp = test;
                     test &= bitmap->data[i];
 
-                    if (test != test_cmp)
+                    if (test != test_cmp && ((i*8 + j) < bitmap->bit_count))
                         return (i*8 + j);
                 }
             if (bitmap->byte_count == i)

@@ -1,6 +1,7 @@
 #include <string.h>
 #include <errno.h>
 #include <stdio.h>
+#include <ctype.h>
 
 
 #include "../include/sstring.h"
@@ -80,10 +81,28 @@ int string_tokenize(const char *str, const char *delims, const size_t str_length
 //Also need to find a way to get the last token from the string
         size_t toks = 0;
         size_t since_tok = 0;
+        char nullingString[max_token_length];
+        /*
+        for (size_t i = 0;i < requested_tokens;i++) {
+            for (size_t j = 0;j < max_token_length;j++, ++since_tok) {
+                if (str[j] == *delims) {
+                    printf("match\n");
+                    strncpy(nulling_string,str[])
+                }
+            }
+
+*/
+
         for (size_t i = 0;i < str_length;i++, ++since_tok) {
             if (str[i] == *delims) {
-                strncpy(tokens[toks++], &str[i-since_tok], since_tok);
+                strncpy(nullingString,&str[i-since_tok],since_tok);
+                nullingString[since_tok] = '\0';
+                printf("\n%s\n",nullingString);
+                strcpy(tokens[toks++], nullingString);
+                //strncpy(tokens[toks++], &str[i-since_tok], since_tok);
+                //tokens[toks-1] += '\0';
                 since_tok = 0;
+                i++;
                 printf("\n%s\n",tokens[toks-1]);
             }
         }
@@ -95,12 +114,20 @@ bool string_to_int(const char *str, int *converted_value) {
     if (!str || !converted_value)
         return false;
     int len = strlen(str);
+    int array[10] = {2,1,4,7,4,8,3,6,4,7};
     if (len > 10)
         return false;
     for (int i = 0;i < len;i++) {
-        if (str[i] != ' ') {
-            printf("\n%d\n", *converted_value);
-            *converted_value = *converted_value * 10 + (str[i] - '0');
+        if (!isspace(str[i])) {
+            //printf("\n%d\n", *converted_value);
+            if (str[i]- '0' <= array[i]) {
+                *converted_value = *converted_value * 10 + (str[i] - '0');
+                //printf("%d : %d\n", (str[i]-'0'),array[i]);
+            }
+            else {
+                *converted_value = 0;
+                return false;
+            }
         }
         else
             return true;

@@ -45,7 +45,7 @@ TEST (string_duplicate, ZeroCount) {
 
 TEST (string_duplicate, ValidStringDuplicate) {
 	const char *string = "matt";
-	char* res = string_duplicate(string,5);	
+	char* res = string_duplicate(string,5);
 	EXPECT_NE(res,(char*)NULL);
 	if (res) {
 	  ASSERT_EQ(0, memcmp(string,res, 5 * sizeof(char)));
@@ -226,7 +226,7 @@ TEST (string_to_int, SimpleCorrectConversion) {
 }
 
 TEST (string_to_int, CannotConvertString) {
-	const char *str = "10000000000000000000";
+	const char *str = "2147483648";
 	int value = 0;
 	EXPECT_EQ(false,string_to_int(str,&value));
 	EXPECT_EQ(0,value);

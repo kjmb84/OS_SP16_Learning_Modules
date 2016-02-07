@@ -1,6 +1,7 @@
 #include <string.h>
 #include <stdlib.h>
 #include <stdio.h>
+#include <ctype.h>
 #include <errno.h>
 #include <unistd.h>
 #include <sys/stat.h>
@@ -9,19 +10,25 @@
 #include "../include/error_handling.h"
 
 int create_blank_records(Record_t **records, const size_t num_records) {
-    if (records != NULL  || num_records < 1)
+    if (num_records < 1) {
         return -1;
+    }
+    printf("\n%d\n", num_records);
+    Record_t *record2 = new Record_t;
+    if (*records != record2)
+        return -2;
     else {
         *records = (Record_t*) malloc(sizeof(Record_t) * num_records);
-
         memset(*records,0,sizeof(Record_t) * num_records);
+        if (!*records)
+            return -3;
         return 0;
     }
 
 }
 
 int read_records(const char *input_filename, Record_t *records, const size_t num_records) {
-    if (!input_filename || *input_filename == ' ' || !records || num_records < 1)
+    if (!input_filename || isspace(*input_filename) || !records || num_records < 1)
         return -1;
 	int fd = open(input_filename, O_RDONLY);
 	if (fd == -1)
@@ -39,7 +46,7 @@ int read_records(const char *input_filename, Record_t *records, const size_t num
 }
 
 int create_record(Record_t **new_record, const char* name, int age) {
-    if (!*new_record || !name || *name == ' ' || age < 0)
+    if (!*new_record || !name || age < 0 || isspace(*name) != 0)
         return -1;
 	*new_record = (Record_t*) malloc(sizeof(Record_t));
 

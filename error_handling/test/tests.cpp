@@ -5,26 +5,26 @@
 #include "../src/error_handling.c"
 #include "gtest/gtest.h"
 
-// int create_blank_records(Record_t **records, const size_t num_records) 
-TEST (create_blank_records, BadParams) {	
+// int create_blank_records(Record_t **records, const size_t num_records)
+TEST (create_blank_records, BadParams) {
 	Record_t * records = NULL;
 	size_t num_records = 0;
 	EXPECT_EQ(-1,create_blank_records(&records, num_records));
-	
+
 	records = new Record_t;
 	num_records = 10;
 	EXPECT_EQ(-1,create_blank_records(&records, num_records));
 	delete records;
 }
 
-TEST (create_blank_records, BadMemoryAllocation) {	
+TEST (create_blank_records, BadMemoryAllocation) {
 	Record_t * records = NULL;
 	size_t num_records = -1;
 	EXPECT_EQ(-2,create_blank_records(&records, num_records));
-	
+
 }
 
-TEST (create_blank_records, GoodAllocation) {	
+TEST (create_blank_records, GoodAllocation) {
 	Record_t * records = NULL;
 	size_t num_records = 10;
 	EXPECT_EQ(0,create_blank_records(&records, num_records));
@@ -36,7 +36,7 @@ TEST (create_blank_records, GoodAllocation) {
 
 
 
-//int read_records(const char *input_filename, Record_t *records, const size_t num_records) 
+//int read_records(const char *input_filename, Record_t *records, const size_t num_records)
 TEST (read_records, BadParams) {
 
 	// bad input filename -- null case
@@ -53,21 +53,21 @@ TEST (read_records, BadParams) {
 	EXPECT_EQ(-1,read_records(input_filename3,&records[0],0));
 }
 
-TEST (read_records, BadFilenameGiven) {	
+TEST (read_records, BadFilenameGiven) {
 	const char *input_filename = "wrong_file.bin";
 	Record_t  records[10];
 	size_t num_records = 10;
 	EXPECT_EQ(-2,read_records(input_filename,&records[0],num_records));
 }
 
-TEST (read_records, BadReadRequest) {	
+TEST (read_records, BadReadRequest) {
 	const char *input_filename = "../test/records.bin";
 	Record_t records[10];
 	// bad num records -- too large
 	EXPECT_EQ(-3,read_records(input_filename,&records[0],200));
 }
 
-TEST (read_records, GoodRead) {	
+TEST (read_records, GoodRead) {
 	const char *input_filename = "../test/records.bin";
 	Record_t records[3];
 	size_t num_records = 3;
@@ -85,10 +85,10 @@ TEST (read_records, GoodRead) {
 }
 
 //int create_record(Record_t **new_record, const char* name, int age)
-//(!new_record || (*new_record) || !name || name[0] == '\0' || name[0] == '\n' 
+//(!new_record || (*new_record) || !name || name[0] == '\0' || name[0] == '\n'
 //	|| strlen(name) < MAX_NAME_LEN - 1 || age < 0 || age > 200
 
-TEST (create_record, BadParams) {	
+TEST (create_record, BadParams) {
 	// bad age test 1
 	Record_t *record = NULL;
 	const char *name = "matthew";
@@ -118,7 +118,7 @@ TEST (create_record, BadParams) {
 	const char *name2 = "thelongestnamethatwillnotwork";
 	EXPECT_EQ(-1,create_record(&record, name2, age));
 
-	// bad record -- allocated record	
+	// bad record -- allocated record
 	record = new Record_t;
 	age = 10;
 	EXPECT_EQ(-1,create_record(&record, name, age));
@@ -126,7 +126,7 @@ TEST (create_record, BadParams) {
 
 }
 
-TEST (create_record, GoodAllocation) {	
+TEST (create_record, GoodAllocation) {
 	Record_t * record = NULL;
 	const char *name = "matthew";
 	int age = 10;

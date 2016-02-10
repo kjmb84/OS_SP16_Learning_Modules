@@ -10,5 +10,5 @@ allocation
 arrays
 bits
 debug
-strings(?)
+strings
 system_programming

@@ -32,6 +32,7 @@ void* reallocate_array(void* ptr, size_t size)
 
 void deallocate_array(void** ptr)
 {
+<<<<<<< HEAD
     if (!ptr)
         return;
     else {
@@ -39,6 +40,9 @@ void deallocate_array(void** ptr)
         *ptr = NULL;
         return;
     }
+=======
+	return;
+>>>>>>> 49ecd14175656a948e92a1be49cc978b5871b7a4
 }
 
 char* read_line_to_buffer(char* filename)

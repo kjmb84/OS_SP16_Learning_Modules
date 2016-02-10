@@ -7,18 +7,23 @@
 /*
  *	BITMAP CREATE UNIT TEST CASES
  **/
-
+ /*
+ This is a bad test for multiple reasons
  TEST(bitmap_create, NegBitVal) {
  	EXPECT_EQ(NULL, bitmap_create(-1));
  }
+ */
 
  TEST(bitmap_create, ZeroBitVal) {
  	EXPECT_EQ(NULL, bitmap_create(0));
  }
 
+ /*
+ Also a bad test, at least on 32-bit systems
  TEST(bitmap_create, TooLargeBitVal){
  	EXPECT_EQ(NULL, bitmap_create(SIZE_MAX));
  }
+ */
 
  TEST(bitmap_create, GoodCreateA) {
  	bitmap_t *bitmap_A;

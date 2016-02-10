@@ -10,7 +10,7 @@
 #include "../include/error_handling.h"
 
 int create_blank_records(Record_t **records, const size_t num_records) {
-    if (num_records < 1 || !*records || records) {
+    if (num_records < 1 || *records != NULL) {
         return -1;
     }
     //printf("\n%d\n", num_records);
@@ -18,8 +18,8 @@ int create_blank_records(Record_t **records, const size_t num_records) {
     if (*records != record2)
         return -2;*/
     else {
-        *records = (Record_t*) malloc(sizeof(Record_t) * num_records);
-        memset(*records,0,sizeof(Record_t) * num_records);
+        *records = (Record_t*) calloc(num_records, sizeof(Record_t));
+        //memset(*records,0,sizeof(Record_t) * num_records);
         if (!*records)
             return -2;
         return 0;
@@ -44,9 +44,9 @@ int read_records(const char *input_filename, Record_t *records, const size_t num
 	}
 	return 0;
 }
-
+//ASK ABOUT THE FIFTY, RIGHT NOW IT FAILS THE TEST BECAUSE THE TEST IS ONLY 29 LONG
 int create_record(Record_t **new_record, const char* name, int age) {
-    if (!*new_record || !name || age < 0 || isspace(*name) != 0)
+    if (*new_record != NULL || !name || age < 1 || age > 200 || isspace(*name) != 0 || strlen(name) > MAX_NAME_LEN)
         return -1;
 	*new_record = (Record_t*) malloc(sizeof(Record_t));
 

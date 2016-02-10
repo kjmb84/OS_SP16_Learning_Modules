@@ -14,29 +14,25 @@ bitmap_t *bitmap_create(size_t n_bits) {
         return NULL;
     bitmap_t *new_bitmap;
     new_bitmap = (bitmap_t *) malloc(sizeof(bitmap_t));
-    if (n_bits%8 != 0)
-        new_bitmap->byte_count = ((n_bits/8)+1);//set amount of bytes
+    if (n_bits%8 != 0)//check if amount of bits can be fit evenly into respective bytes
+        new_bitmap->byte_count = ((n_bits/8)+1);//set amount of bytes if there are some left over
     else
-        new_bitmap->byte_count = (n_bits/8);
+        new_bitmap->byte_count = (n_bits/8);//set amount of bytes if none left over
 
     new_bitmap->bit_count = n_bits;
-    //new_bitmap->data = (uint8_t *) malloc(new_bitmap->byte_count); //set amount of memory given to data of bitmap
-    new_bitmap->data = (uint8_t *) calloc(new_bitmap->byte_count, sizeof(uint8_t));
-    //new_bitmap->data = 0;
-    //new_bitmap->data[new_bitmap->byte_count] = {0};
+    new_bitmap->data = (uint8_t *) calloc(new_bitmap->byte_count, sizeof(uint8_t));//0 out allocated data space to prevent future conflicts
     return new_bitmap;
 }
 
 bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {
-    //if (!bitmap || (bit != 1 && bit != 0))
     if (bit == 0) {
-        bitmap->data[0] |= 1;
+        bitmap->data[0] |= 1;//only used if it is the first bit to be set
         return true;
     }
     if (!bitmap || bit < 1 || ceil(bit/8.0) > bitmap->byte_count)
         return false;
     else {
-        bitmap->data[bit/8] |= 1 << (bit%8);
+        bitmap->data[bit/8] |= 1 << (bit%8);//move bit and set the bit in the byte from data
         return true;
     }
     return false;
@@ -44,13 +40,13 @@ bool bitmap_set(bitmap_t *const bitmap, const size_t bit) {
 
 bool bitmap_reset(bitmap_t *const bitmap, const size_t bit) {
    if (bit == 0) {
-        bitmap->data[0] &= ~1;
+        bitmap->data[0] &= ~1;//only used if bit is the first to be reset
         return true;
     }
     if (!bitmap || bit > bitmap->bit_count)
         return false;
     else {
-        bitmap->data[bit/8] &= ~(1 << (bit%8));
+        bitmap->data[bit/8] &= ~(1 << (bit%8));//move bit and then reset that bit equivalent in the data byte
         return true;
     }
 }
@@ -59,10 +55,10 @@ bool bitmap_test(const bitmap_t *const bitmap, const size_t bit) {
     if (!bitmap || bit > bitmap->bit_count)
         return false;
     else {
-        uint8_t test = 1 << (bit%8);
-        uint8_t test_cmp = test;
+        uint8_t test = 1 << (bit%8);//set up bit to be tested
+        uint8_t test_cmp = test;//set up bit to be compared to the original
         test &= bitmap->data[bit/8];
-        if (test != test_cmp)
+        if (test != test_cmp)//if the bit was changed the test fails
             return false;
         else
             return true;
@@ -73,18 +69,18 @@ size_t bitmap_ffs(const bitmap_t *const bitmap) {
     if (!bitmap)
         return SIZE_MAX;
     else {
-        uint8_t hanging_bits = bitmap->bit_count % 8;
-        uint8_t bit_limit = 8;
+        uint8_t hanging_bits = bitmap->bit_count % 8;//check if there are bits that will be protruding into the next byte
+        uint8_t bit_limit = 8;//this can be changed, that way the last byte will not be looped all the way through
         for (size_t i = 0;i < bitmap->byte_count;i++) {
             if (bitmap->data[i] != 0) {
                 for (size_t j = 0;j < bit_limit;j++) {
                     uint8_t test = 1 << (j%8);
                     uint8_t test_cmp = test;
                     test &= bitmap->data[i];
-                    if (test == test_cmp)
-                        return (i*8 + j);
+                    if (test == test_cmp)//if the test is unchanged, a set bit was found
+                        return (i*8 + j);//position of the byte * 8 plus the position of the bit
                 }
-            if (bitmap->byte_count == i)
+            if (bitmap->byte_count == i)//if the last byte is reached, change limit so that extraneous bits aren't checked
                 bit_limit = hanging_bits;
             }
         }

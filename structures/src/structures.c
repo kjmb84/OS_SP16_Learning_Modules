@@ -18,12 +18,6 @@ void print_alignments()
 	printf("Alignment of structs are %zu bytes\n",__alignof__(fruit_t));
 }
 
-// Purpose: Categorizes fruits into apples and oranges
-// Receives:  fruit_t* a - pointer to an array of fruits,
-//			  int* apples - pointer to apples pass-back address,
-//			  int* oranges - pointer to oranges pass-back address,
-//			  const size_t size - size of array
-// Returns: The size of the array, -1 if there was an error.
 int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size)
 {
     if (!a || apples < 0 || oranges < 0 || size < 1)
@@ -31,27 +25,18 @@ int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size)
     else {
         int i = 0;
         for (i = 0;i < size;i++,a++) {
-            printf("%d\n",a->type);
             if (a->type == ORANGE){
                 *oranges+=1;
-                //printf("%d\n",*oranges);
             }
             if (a->type == APPLE) {
                 *apples+=1;
-                //printf("\n%d\n",*apples);
             };
         }
-        printf("%d\n",size);
         return i;
     }
     return -1;
 }
 
-// Purpose: Initializes an array of fruits with the specified number of apples and oranges
-// Receives: fruit_t* a - pointer to an array of fruits
-//						int apples - the number of apples
-//						int oranges - the number of oranges
-// Returns: -1 if there was an error, 0 otherwise.
 int initialize_array(fruit_t* a, int apples, int oranges)
 {
     if (!a || apples < 0 || oranges < 0)

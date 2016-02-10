@@ -20,10 +20,10 @@ void* reallocate_array(void* ptr, size_t size)
     if (size < 1)
         return NULL;
     else {
-        if (!ptr)
+        if (!ptr) //check to make sure pointer is currently set to null
             return (ptr = malloc(size));
         else {
-            ptr = realloc(ptr, size);
+            ptr = realloc(ptr, size); //if pointer is not null, increase space given to it
             return ptr;
         }
     }
@@ -32,7 +32,6 @@ void* reallocate_array(void* ptr, size_t size)
 
 void deallocate_array(void** ptr)
 {
-<<<<<<< HEAD
     if (!ptr)
         return;
     else {
@@ -40,9 +39,7 @@ void deallocate_array(void** ptr)
         *ptr = NULL;
         return;
     }
-=======
 	return;
->>>>>>> 49ecd14175656a948e92a1be49cc978b5871b7a4
 }
 
 char* read_line_to_buffer(char* filename)
@@ -51,15 +48,12 @@ char* read_line_to_buffer(char* filename)
         return filename;
     else {
         FILE *fp = fopen(filename, "r");
-        fseek(fp,0L,SEEK_END);
-        int sz=ftell(fp);
-        printf("%d\n",sz);
-        //fseek(fp,0L,SEEK_SET);
-        rewind(fp);
-        char *buffer = (char *) malloc(sz*sizeof(char));
+        fseek(fp,0L,SEEK_END); //For find ending of file
+        int sz=ftell(fp);//Store size in variable
+        rewind(fp);//set pointer back to beginning of file
+        char *buffer = (char *) malloc(sz*sizeof(char));//create buffer for file to be read into
         fread(buffer, sizeof(char), sz, fp);
-        buffer[sz] = '\0';
-        printf("\n%s\n\n", buffer);
+        buffer[sz] = '\0';//give buffer ending point
         fclose (fp);
         return buffer;
     }

@@ -33,7 +33,7 @@ ssize_t array_locate(const void *data, const void *target, const size_t elem_siz
     else {
         const char* d_ptr = (const char*) data;
 
-        for (size_t i = 0;i < elem_count; ++i, d_ptr += elem_size) {
+        for (size_t i = 0;i < elem_count; ++i, d_ptr += elem_size) {//d_ptr incremented by elem_size so that pointer is in correct location for next iteration
             if (memcmp(d_ptr, target, elem_size) == 0) {
                 return i;
             }
@@ -63,9 +63,9 @@ bool array_deserialize(const char *src_file, void *dst_data, const size_t elem_s
     else {
         FILE * src_fp;
         src_fp = fopen(src_file, "r");
-        if (src_fp == NULL)
+        if (src_fp == NULL)//if file was not successfully opened, return false
             return false;
-        if (elem_count == fread(dst_data, elem_size, elem_count, src_fp))
+        if (elem_count == fread(dst_data, elem_size, elem_count, src_fp))//if all files have been read, success
             return true;
     }
 	return false;

@@ -13,13 +13,8 @@ int create_blank_records(Record_t **records, const size_t num_records) {
     if (num_records < 1 || *records != NULL) {
         return -1;
     }
-    //printf("\n%d\n", num_records);
-    /*Record_t *record2 = new Record_t;
-    if (*records != record2)
-        return -2;*/
     else {
         *records = (Record_t*) calloc(num_records, sizeof(Record_t));
-        //memset(*records,0,sizeof(Record_t) * num_records);
         if (!*records)
             return -2;
         return 0;

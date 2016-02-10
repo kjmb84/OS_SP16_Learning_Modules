@@ -2,7 +2,6 @@
 Contains all the c refreshing and system programing modules
 
 unfinished:
-error_handling
 structures
 
 finished:
@@ -12,3 +11,4 @@ bits
 debug
 strings
 system_programming
+error_handling

@@ -30,13 +30,18 @@ int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size)
         return -1;
     else {
         int i = 0;
-        for (i = 0;i < size;i++) {
-            if (a->type == ORANGE)
+        for (i = 0;i < size;i++,a++) {
+            printf("%d\n",a->type);
+            if (a->type == ORANGE){
                 *oranges+=1;
-            if (a->type == APPLE)
+                //printf("%d\n",*oranges);
+            }
+            if (a->type == APPLE) {
                 *apples+=1;
-            a++;
+                //printf("\n%d\n",*apples);
+            };
         }
+        printf("%d\n",size);
         return i;
     }
     return -1;
@@ -49,17 +54,15 @@ int sort_fruit(const fruit_t* a,int* apples,int* oranges, const size_t size)
 // Returns: -1 if there was an error, 0 otherwise.
 int initialize_array(fruit_t* a, int apples, int oranges)
 {
-    if (a || apples < 0 || oranges < 0)
+    if (!a || apples < 0 || oranges < 0)
         return -1;
-    //a = (fruit_t *) malloc((apples + oranges)*sizeof(int));
-    if (a)
-        return 0;
     int i = 0;
-    for (i = 0;i < apples;i++) {
-        a++->type = APPLE;
+    for (i = 0;i < apples;i++,a++) {
+        a->type = APPLE;
     }
-    for (int j = 0;j < oranges;j++)
-        a++->type = ORANGE;
+    for (i = 0;i < oranges;i++,a++) {
+        a->type = ORANGE;
+    }
     return 0;
 }
 
